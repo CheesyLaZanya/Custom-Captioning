@@ -1,0 +1,23 @@
+transformers==4.42.4
+pillow==10.2.0
+requests==2.32.3
+datasets==2.20.0
+gradio==4.38.1
+accelerate==0.32.1
+bitsandbytes==0.43.1
+flake8==7.1.0
+pre-commit==3.7.1
+
+# florence2 requirements
+timm==1.0.7
+einops==0.8.0
+ninja==1.11.1.1
+flash-attn==2.6.1 # Note this took like 4 hours, disable these if not using florence2
+
+# WD Tagger requirements
+onnxruntime==1.18.1
+
+# COGVLM requirements
+sentencepiece==0.2.0
+xformers==0.0.27
+# triton

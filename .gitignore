@@ -1,0 +1,8 @@
+.env
+
+# Analyzing Art Multimodal
+exports
+
+# Captioning Practice
+__pycache__
+outputs/

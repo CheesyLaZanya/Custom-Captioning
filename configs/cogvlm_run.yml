@@ -1,0 +1,11 @@
+image_input: "E:/EImageAI/Datasets/r_cosplay/"
+output_format: "csv"
+output_file: "cogvlm_output.csv"
+append: false
+debug: true
+ui: false
+models:
+  - model_name: "THUDM/cogvlm-chat-hf"
+    model_type: "cogvlm"
+    prompts:
+      - "Describe this image"

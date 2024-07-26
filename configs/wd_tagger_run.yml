@@ -1,0 +1,11 @@
+image_input: "E:/EImageAI/Datasets/r_cosplay/"
+output_format: "csv"
+output_file: "wd_tagger.csv"
+append: false
+debug: true
+ui: false
+models:
+  - model_name: "SmilingWolf/wd-vit-tagger-v3"
+    model_type: "wd_tagger"
+    prompts:
+      - ""

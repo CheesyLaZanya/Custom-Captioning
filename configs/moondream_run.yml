@@ -1,0 +1,11 @@
+image_input: "E:/EImageAI/Datasets/r_cosplay/"
+output_format: "csv"
+output_file: "moondream.csv"
+append: false
+debug: true
+ui: false
+models:
+  - model_name: "vikhyatk/moondream2"
+    model_type: "moondream"
+    prompts:
+      - "Describe this image."

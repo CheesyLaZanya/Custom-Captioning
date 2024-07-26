@@ -1,0 +1,22 @@
+image_input: "E:/EImageAI/Datasets/"
+output_format: "jsonl"
+output_file: "multi_local_folder.jsonl"
+append: false
+debug: true
+ui: false
+models:
+  - model_name: "microsoft/Florence-2-large-ft"
+    model_type: "florence2"
+    prompts:
+      - "<CAPTION>"
+      - "<DETAILED_CAPTION>"
+      - "<MORE_DETAILED_CAPTION>"
+      - "<OCR>"
+  - model_name: "llava-hf/llava-v1.6-mistral-7b-hf"
+    model_type: "llava"
+    prompts:
+      - "Describe this image in detail"
+  - model_name: "Salesforce/blip2-opt-2.7b"
+    model_type: "blip2"
+    prompts:
+      - "What is the content of this image?"
