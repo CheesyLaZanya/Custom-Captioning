@@ -28,7 +28,7 @@ The script generates captions for the input images and saves the results in the 
 
 1. Clone this repository:
 ```shell
-   git clone https://gitlab.com/land-of-atoz/machine-learning/custom-captioning.git
+   git clone https://github.com/CheesyLaZanya/Custom-Captioning.git
    cd custom-captioning
 ```
 
