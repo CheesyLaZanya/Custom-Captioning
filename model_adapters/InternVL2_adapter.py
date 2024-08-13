@@ -100,7 +100,7 @@ def load_pixel_values(image, input_size=448, max_num=6):
     return pixel_values
 
 
-def generate_caption(model: AutoModel, processor: AutoTokenizer, image: Image.Image, prompt: str) -> str:
+def generate_annotation(model: AutoModel, processor: AutoTokenizer, image: Image.Image, prompt: str) -> str:
     device = next(model.parameters()).device
 
     # Prepare the prompt using the appropriate template
@@ -117,9 +117,9 @@ def generate_caption(model: AutoModel, processor: AutoTokenizer, image: Image.Im
         do_sample=False,
     )
 
-    caption = model.chat(processor, pixel_values, full_prompt, generation_config)
+    annotation = model.chat(processor, pixel_values, full_prompt, generation_config)
 
-    return caption
+    return annotation
 
 
 def get_suggested_models() -> List[str]:

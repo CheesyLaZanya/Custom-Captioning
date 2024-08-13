@@ -17,7 +17,7 @@ def load_model(model_name: str) -> tuple[Blip2ForConditionalGeneration, AutoProc
     return model, processor
 
 
-def generate_caption(model: Blip2ForConditionalGeneration, processor: AutoProcessor, image: Image.Image, prompt: str) -> str:
+def generate_annotation(model: Blip2ForConditionalGeneration, processor: AutoProcessor, image: Image.Image, prompt: str) -> str:
     device = next(model.parameters()).device
 
     # Prepare the prompt using the appropriate template
@@ -30,12 +30,12 @@ def generate_caption(model: Blip2ForConditionalGeneration, processor: AutoProces
     inputs = processor(image, text=full_prompt, return_tensors="pt").to(device, torch.float16)
 
     generated_ids = model.generate(**inputs, max_new_tokens=100)
-    caption = processor.batch_decode(generated_ids, skip_special_tokens=True)[0].strip()
+    annotation = processor.batch_decode(generated_ids, skip_special_tokens=True)[0].strip()
 
-    # Remove the initial prompt from the caption
-    caption = caption.replace(full_prompt, "").strip()
+    # Remove the initial prompt from the annotation
+    annotation = annotation.replace(full_prompt, "").strip()
 
-    return caption.strip()
+    return annotation.strip()
 
 
 def get_suggested_models() -> List[str]:

@@ -56,7 +56,7 @@ def load_model(model_name: str):
     return model, processor
 
 
-def generate_caption(model: InferenceSession, processor: WdTaggerProcessor, image: Image.Image, prompt: str) -> str:
+def generate_annotation(model: InferenceSession, processor: WdTaggerProcessor, image: Image.Image, prompt: str) -> str:
     # Preprocess the image
     image_array = processor.preprocess_image(image)
 
@@ -71,8 +71,8 @@ def generate_caption(model: InferenceSession, processor: WdTaggerProcessor, imag
     top_probs = probabilities[top_indices]
 
     # Format the output
-    caption = ", ".join([f"{tag} ({prob:.2f})" for tag, prob in zip(top_tags, top_probs)])
-    return caption
+    annotation = ", ".join([f"{tag} ({prob:.2f})" for tag, prob in zip(top_tags, top_probs)])
+    return annotation
 
 
 def get_suggested_models() -> List[str]:

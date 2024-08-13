@@ -21,7 +21,7 @@ def load_model(model_name: str) -> tuple[AutoModelForCausalLM, AutoTokenizer]:
     return model, processor
 
 
-def generate_caption(model: AutoModelForCausalLM, processor: AutoTokenizer, image: Image.Image, prompt: str) -> str:
+def generate_annotation(model: AutoModelForCausalLM, processor: AutoTokenizer, image: Image.Image, prompt: str) -> str:
     device = next(model.parameters()).device
 
     if image.mode != "RGB":
@@ -29,9 +29,9 @@ def generate_caption(model: AutoModelForCausalLM, processor: AutoTokenizer, imag
 
     encoded_image = model.encode_image(image).to(device)
 
-    caption = model.answer_question(encoded_image, prompt, processor)
+    annotation = model.answer_question(encoded_image, prompt, processor)
 
-    return caption
+    return annotation
 
 
 def get_suggested_models() -> List[str]:

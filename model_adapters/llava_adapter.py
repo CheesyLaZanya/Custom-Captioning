@@ -21,7 +21,7 @@ def load_model(model_name: str) -> tuple[LlavaNextForConditionalGeneration, Llav
     return model, processor
 
 
-def generate_caption(model: LlavaNextForConditionalGeneration, processor: LlavaNextProcessor, image: Image.Image, prompt: str) -> str:
+def generate_annotation(model: LlavaNextForConditionalGeneration, processor: LlavaNextProcessor, image: Image.Image, prompt: str) -> str:
     device = next(model.parameters()).device
 
     # Prepare the prompt using the appropriate template
@@ -30,17 +30,17 @@ def generate_caption(model: LlavaNextForConditionalGeneration, processor: LlavaN
     # Process the input
     inputs = processor(full_prompt, image, return_tensors="pt").to(device)
 
-    # Generate the caption
+    # Generate the annotation
     output = model.generate(**inputs, max_new_tokens=300)
 
-    # Decode the caption
-    caption = processor.decode(output[0], skip_special_tokens=True)
+    # Decode the annotation
+    annotation = processor.decode(output[0], skip_special_tokens=True)
 
-    # Remove the initial prompt from the caption
-    prompt_marker_end = caption.find("[/INST]") + len("[/INST]")
-    caption = caption[prompt_marker_end:].strip()
+    # Remove the initial prompt from the annotation
+    prompt_marker_end = annotation.find("[/INST]") + len("[/INST]")
+    annotation = annotation[prompt_marker_end:].strip()
 
-    return caption.strip()
+    return annotation.strip()
 
 
 def get_suggested_models() -> List[str]:

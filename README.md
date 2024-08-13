@@ -1,11 +1,11 @@
-# Image Captioning Script
+# Image Annotation Script
 
-This script allows you to generate or try out captions for images using various AI models, and save the results to various output formats.
+This script allows you to generate and experiment with annotations for images using various AI models, and save the results to various output formats.
 
 It supports a CLI mode, loading from config files, and a UI mode.
 
-![A screenshot showing the UI Mode's input section](screenshots/captioning_ui_inputs.png)
-![A screenshot showing the UI Mode's output section](screenshots/captioning_ui_outputs.png)
+![A screenshot showing the UI Mode's input section](screenshots/annotation_ui_inputs.png)
+![A screenshot showing the UI Mode's output section](screenshots/annotation_ui_outputs.png)
 
 ## Supported Models
 
@@ -22,7 +22,7 @@ The currently supported models are:
 
 ## Output
 
-The script generates captions for the input images and saves the results in the specified output format (CSV, TSV or JSONL). The output includes the file name, URL (if applicable), prompt, and generated caption for each image-prompt combination.
+The script generates annotations for the input images and saves the results in the specified output format (CSV, TSV or JSONL). The output includes the file name, URL (if applicable), prompt, and generated annotations for each image-prompt combination.
 
 ## Setup
 
@@ -87,7 +87,7 @@ Arguments:
 - `--model_type`: Type of the model (choices: llava, blip2, florence2, dolphin) (optional)
 - `--image_input`: Image URL, Hugging Face dataset (precedded by hf://), or local path (optional)
 - `--maximum_images`: The maximum number of images to process (optional)
-- `--prompt`: Single prompt for captioning (optional)
+- `--prompt`: Single prompt for annotation (optional)
 - `--prompt_file`: File containing multiple prompts (optional)
 - `--output_format`: Output format (choices: csv, tsv, jsonl) (optional)
 - `--output_file`: Output file name (optional)

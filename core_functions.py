@@ -356,32 +356,32 @@ def load_prompts(prompt: str, prompt_file: str) -> List[str]:
     return prompts
 
 
-def generate_caption(model: torch.nn.Module, processor: Union[AutoProcessor, AutoTokenizer], image: Image.Image, prompt: str, model_type: str) -> str:
+def generate_annotation(model: torch.nn.Module, processor: Union[AutoProcessor, AutoTokenizer], image: Image.Image, prompt: str, model_type: str) -> str:
     """
-    Generate a caption for the given image using the specified model and prompt.
+    Generate an annotation for the given image using the specified model and prompt.
 
     Args:
         model (torch.nn.Module): The loaded model.
         processor (Union[AutoProcessor, AutoTokenizer]): The model's processor.
         image (Image.Image): The input image.
-        prompt (str): The prompt to use for captioning.
+        prompt (str): The prompt to use for annotation.
         model_type (str): The type of the model.
 
     Returns:
-        str: The generated caption.
+        str: The generated annotation.
     """
 
-    print("Generating caption...")
+    print("Generating annotation...")
     adapter = importlib.import_module(f"model_adapters.{model_type}_adapter")
-    return adapter.generate_caption(model, processor, image, prompt)
+    return adapter.generate_annotation(model, processor, image, prompt)
 
 
 def save_results(results: List[Dict], output_format: str, output_file: str, append: bool) -> None:
     """
-    Save the captioning results to a file.
+    Save the annotation results to a file.
 
     Args:
-        results (List[Dict]): A list of dictionaries containing the captioning results.
+        results (List[Dict]): A list of dictionaries containing the annotation results.
         output_format (str): The format to save the results in ('csv' or 'jsonl').
         output_file (str): The name of the output file.
         append (bool): Whether to append to an existing file or create a new one.
@@ -403,7 +403,7 @@ def save_results(results: List[Dict], output_format: str, output_file: str, appe
     mode = 'a' if append else 'w'
     header = not os.path.exists(output_path) or not append
 
-    fieldnames = ['file_name', 'url', 'prompt', 'caption', 'model_type', 'model_name']
+    fieldnames = ['file_name', 'url', 'prompt', 'vlm_annotation', 'model_type', 'model_name']
 
     if output_format == 'csv':
         with open(output_path, mode, newline='', encoding='utf-8') as f:

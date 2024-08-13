@@ -7,7 +7,7 @@ import transformers
 
 # Local imports
 from core_functions import (
-    generate_caption,
+    generate_annotation,
     get_available_model_types,
     load_images,
     load_model,
@@ -15,7 +15,7 @@ from core_functions import (
     save_results,
 )
 from ui.debug_ui import create_debug_interface
-from ui.captioning_ui import create_ui_interface
+from ui.annotation_ui import create_ui_interface
 from utils import load_config
 
 # Suppress specific warnings
@@ -28,7 +28,7 @@ transformers.logging.disable_progress_bar()
 
 def main(args: argparse.Namespace) -> None:
     """
-    The main function that orchestrates the image captioning process.
+    The main function that orchestrates the image annotation process.
 
     Args:
         args (argparse.Namespace): The command-line arguments.
@@ -70,13 +70,13 @@ def main(args: argparse.Namespace) -> None:
 
         for image, filename in images:
             for prompt in prompts:
-                caption = generate_caption(model, processor, image, prompt, model_config['model_type'])
+                vlm_annotation = generate_annotation(model, processor, image, prompt, model_config['model_type'])
                 results.append({
                     "image": image,
                     "file_name": filename,
                     "url": image_input if image_input.startswith(('http://', 'https://', 'hf://')) else "local",
                     "prompt": prompt,
-                    "caption": caption,
+                    "vlm_annotation": vlm_annotation,
                     "model_type": model_config['model_type'],
                     "model_name": model_config['model_name']
                 })
@@ -92,12 +92,12 @@ def main(args: argparse.Namespace) -> None:
 if __name__ == "__main__":
     model_types = get_available_model_types()
 
-    parser = argparse.ArgumentParser(description="Image Captioning Script")
+    parser = argparse.ArgumentParser(description="VLM Annotation Script")
     parser.add_argument("--model_name", type=str, help="Name or path of the model")
     parser.add_argument("--model_type", type=str, choices=model_types, help="Type of the model")
     parser.add_argument("--image_input", type=str, help="Image URL, dataset URL, or local path")
     parser.add_argument("--maximum_images", type=int, default=10, help="The maximum number of images to process")
-    parser.add_argument("--prompt", type=str, help="Single prompt for captioning")
+    parser.add_argument("--prompt", type=str, help="Single prompt for annotation")
     parser.add_argument("--prompt_file", type=str, help="File containing multiple prompts")
     parser.add_argument("--output_format", type=str, choices=["csv", "tsv", "jsonl"], help="Output format")
     parser.add_argument("--output_file", type=str, help="Output file name")

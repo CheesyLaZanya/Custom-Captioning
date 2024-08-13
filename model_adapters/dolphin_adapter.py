@@ -22,7 +22,7 @@ def load_model(model_name: str) -> tuple[AutoModelForCausalLM, AutoTokenizer]:
     return model, processor
 
 
-def generate_caption(model: AutoModelForCausalLM, processor: AutoTokenizer, image: Image.Image, prompt: str) -> str:
+def generate_annotation(model: AutoModelForCausalLM, processor: AutoTokenizer, image: Image.Image, prompt: str) -> str:
     device = next(model.parameters()).device
     messages = [
         {"role": "user", "content": f'<image>\n{prompt}'}

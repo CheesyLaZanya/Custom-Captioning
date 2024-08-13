@@ -21,7 +21,7 @@ def load_model(model_name: str) -> tuple[AutoModelForCausalLM, LlamaTokenizer]:
     return model, processor
 
 
-def generate_caption(model: AutoModelForCausalLM, processor: LlamaTokenizer, image: Image.Image, prompt: str) -> str:
+def generate_annotation(model: AutoModelForCausalLM, processor: LlamaTokenizer, image: Image.Image, prompt: str) -> str:
     device = next(model.parameters()).device
 
     if image.mode != "RGB":
@@ -39,9 +39,9 @@ def generate_caption(model: AutoModelForCausalLM, processor: LlamaTokenizer, ima
     with torch.no_grad():
         outputs = model.generate(**inputs, **gen_kwargs)
         outputs = outputs[:, inputs['input_ids'].shape[1]:]
-        caption = processor.decode(outputs[0])
+        annotation = processor.decode(outputs[0])
 
-    return caption
+    return annotation
 
 
 def get_suggested_models() -> List[str]:

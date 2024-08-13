@@ -9,7 +9,7 @@ import gradio as gr
 
 # Local imports
 from core_functions import (
-    generate_caption,
+    generate_annotation,
     get_available_model_types,
     get_suggested_models,
     get_suggested_prompts,
@@ -89,7 +89,7 @@ def create_ui_interface() -> gr.Blocks:
             print(e)
             return None
 
-    def generate_caption_ui(model_type, model_name, image_input, prompt, maximum_images):
+    def generate_annotation_ui(model_type, model_name, image_input, prompt, maximum_images):
         try:
             model, processor = load_model(model_name, model_type)
             images = load_images(image_input, maximum_images)
@@ -98,19 +98,19 @@ def create_ui_interface() -> gr.Blocks:
 
             results = []
             for image, filename in images:
-                caption = generate_caption(model, processor, image, prompt, model_type)
+                vlm_annotation = generate_annotation(model, processor, image, prompt, model_type)
                 results.append({
                     "image": image,
                     "file_name": filename,
                     "url": image_input if image_input.startswith(('http://', 'https://', 'hf://')) else "local",
                     "prompt": prompt,
-                    "caption": caption,
+                    "vlm_annotation": vlm_annotation,
                     "model_type": model_type,
                     "model_name": model_name
                 })
 
             # Prepare data for gallery and dataframe
-            gallery_images = [(res["image"], f"{res['file_name']}: {res['caption'][:50]}...") for res in results]
+            gallery_images = [(res["image"], f"{res['file_name']}: {res['vlm_annotation'][:50]}...") for res in results]
 
             df_data = []
             for res in results:
@@ -123,11 +123,11 @@ def create_ui_interface() -> gr.Blocks:
                 truncated_file_name = (res["file_name"][:14] + '...') if len(res["file_name"]) > 14 else res["file_name"]
                 file_name_html = f'<span title="{res["file_name"]}">{truncated_file_name}</span>'
 
-                caption_html = f'<div style="white-space: normal;">{res["caption"]}</div>'
+                annotation_html = f'<div style="white-space: normal;">{res["vlm_annotation"]}</div>'
 
-                df_data.append([img_html, file_name_html, caption_html])
+                df_data.append([img_html, file_name_html, annotation_html])
 
-            return "Captions generated successfully.", gallery_images, df_data, results
+            return "Annotations generated successfully.", gallery_images, df_data, results
         except Exception as e:
             return f"Error: {str(e)}", None, None, None
 
@@ -146,7 +146,7 @@ def create_ui_interface() -> gr.Blocks:
     model_types = get_available_model_types()
 
     with gr.Blocks() as iface:
-        gr.Markdown("# Image Captioning UI")
+        gr.Markdown("# Image Annotation UI")
         with gr.Row():
             with gr.Column():
                 model_type_input = gr.Dropdown(choices=model_types, label="Select Model Type")
@@ -175,7 +175,7 @@ def create_ui_interface() -> gr.Blocks:
                     label="Enter Prompt",
                     value="Describe the image."
                 )
-                run_button = gr.Button("Generate Captions")
+                run_button = gr.Button("Generate Annotations")
             with gr.Column():
                 output = gr.Textbox(label="Status")
                 gallery = gr.Gallery(
@@ -186,7 +186,7 @@ def create_ui_interface() -> gr.Blocks:
                 )
 
         results_df = gr.Dataframe(
-            headers=["Thumbnail", "Filename", "Caption"],
+            headers=["Thumbnail", "Filename", "Annotation"],
             datatype=["html", "html", "html"],
             label="Results"
         )
@@ -230,7 +230,7 @@ def create_ui_interface() -> gr.Blocks:
         )
 
         run_button.click(
-            generate_caption_ui,
+            generate_annotation_ui,
             inputs=[model_type_input, model_name_input, image_input, prompt_input, maximum_images],
             outputs=[output, gallery, results_df, results_state]
         )

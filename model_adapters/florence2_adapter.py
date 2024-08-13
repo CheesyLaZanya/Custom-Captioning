@@ -22,7 +22,7 @@ def load_model(model_name: str) -> tuple[AutoModelForCausalLM, AutoProcessor]:
     return model, processor
 
 
-def generate_caption(model: AutoModelForCausalLM, processor: AutoProcessor, image: Image.Image, prompt: str) -> str:
+def generate_annotation(model: AutoModelForCausalLM, processor: AutoProcessor, image: Image.Image, prompt: str) -> str:
     if image.mode != "RGB":
         image = image.convert("RGB")
 
@@ -37,9 +37,9 @@ def generate_caption(model: AutoModelForCausalLM, processor: AutoProcessor, imag
 
     generated_text = processor.batch_decode(generated_ids, skip_special_tokens=False)[0]
     processed_output = processor.post_process_generation(generated_text, task=prompt, image_size=(image.width, image.height))
-    caption = processed_output.get(prompt, '')
+    annotation = processed_output.get(prompt, '')
 
-    return caption
+    return annotation
 
 
 def get_suggested_models() -> List[str]:
